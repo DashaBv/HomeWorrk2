@@ -60,9 +60,7 @@ public class StudentRegistrationFormTests {
         $("#stateCity-wrapper").$(byText("NCR")).click();
         $("#city").click();
         $("#stateCity-wrapper").$(byText("Delhi")).click();
-
         $("#submit").click();
-
         //проверка формы
         $(".modal-content").shouldHave(
                 text("Student Name"), text("Dasha Belikova"),
