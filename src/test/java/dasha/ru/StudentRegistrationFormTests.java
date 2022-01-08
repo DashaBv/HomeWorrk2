@@ -5,7 +5,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
@@ -18,10 +21,8 @@ public class StudentRegistrationFormTests {
     @DisplayName("Homework")
     @Test
      void RegistrationFormTest() {
-
         //Открыть страницу
         open("/automation-practice-form");
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
         //Заполнить поле "First Name"
         $("#firstName").setValue("Dasha");
         //Заполнить поле "Last Name"
@@ -45,13 +46,36 @@ public class StudentRegistrationFormTests {
         //Заполнить поле Subject
         //subjectsInput
         $("#subjectsInput").setValue("Computer Science").pressEnter();
+        //Заполнить поле Hobbies
+        $("#hobbiesWrapper").$(byText("Reading")).click();
+        //Заполнить поле Picture
+        //$("#uploadPicture").uploadFile(new File("src/test/resources/i6.jpg"));
+        //File someFile = new File("src/i6.jpg");
+        //$("#uploadPicture").uploadFile(someFile);
+        $("#uploadPicture").uploadFromClasspath("i6.jpg");
         //Заполнить поле Current Address
         $("#currentAddress").setValue("Sesame");
+        //Заполнить поле State and City
+        $("#state").click();
+        $("#stateCity-wrapper").$(byText("NCR")).click();
+        $("#city").click();
+        $("#stateCity-wrapper").$(byText("Delhi")).click();
 
         $("#submit").click();
 
-
-
+        //проверка формы
+        $(".modal-content").shouldHave(
+                text("Student Name"), text("Dasha Belikova"),
+                text("Student Email"), text("dasha.belikova@mail.ru"),
+                text("Gender"), text("Female"),
+                text("Mobile"), text("9889818690"),
+                text("Date of Birth"), text("04 February,1994"),
+                text("Subjects"), text("Computer Science"),
+                text("Hobbies"), text("Reading"),
+                text("Picture"), text("i6.jpg"),
+                text("Address"), text("Sesame"),
+                text("State and City"), text("NCR Delhi")
+        );
 
     }
 }
